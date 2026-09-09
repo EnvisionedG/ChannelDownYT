@@ -78,7 +78,7 @@ Clone the repo:
 
 Code
 
-git clone https://github.com/<yourname>/ChannelDown
+git clone https://github.com/EnvisionedG/ChannelDown
 
 cd ChannelDown
 
