@@ -1,12 +1,5 @@
-https://www.youtube.com/@SMii7Yplus
-https://www.youtube.com/@SMii7Y
-https://www.youtube.com/@dougdougdoug
-https://www.youtube.com/@failboat
-https://www.youtube.com/@LetsGameItOut
-https://www.youtube.com/@dandingles
-https://www.youtube.com/@markiplier
-https://www.youtube.com/@Fir
-https://www.youtube.com/@PointCrow
-https://www.youtube.com/@DougDougHaters
-https://www.youtube.com/@CrowPointExists
-https://www.youtube.com/@SMii7Yplays
+::Delete these lines::
+#Add the youtube channels that you want to have downloaded, replace example with 
+#Example:
+
+https://www.youtube.com/@example
