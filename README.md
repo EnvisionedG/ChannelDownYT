@@ -82,9 +82,9 @@ Clone the repo:
 
 Code
 
-git clone https://github.com/EnvisionedG/ChannelDown
+git clone https://github.com/EnvisionedG/ChannelDownYT
 
-cd ChannelDown
+cd ChannelDownYT
 
 Ensure the following files exist:
 
@@ -235,9 +235,7 @@ Included in the repo. It cds into the script folder and shows a menu:
 Code
 
 1. Start downloading
-
 2. Settings (resolution, videos per channel, ...)
-
 3. Exit
 
 This prevents Windows from running the script inside C:\\Windows\\System32, which causes permission errors.
