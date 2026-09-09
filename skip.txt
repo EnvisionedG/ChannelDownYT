@@ -1,0 +1,6 @@
+::Delete these lines::
+#Add the videos you want to skip by inputting dQw4w9WgXcQ from
+url https://www.youtube.com/watch?v=dQw4w9WgXcQ
+#example:
+
+dQw4w9WgXcQ
