@@ -1,6 +1,6 @@
 # ChannelDown
 
-I coded this for personal use and deceided why not reveal it to the public, i have got hardcoded stuff, like the resolution, and the amount of new vids to download and such. Also, dont bug me for it, buuut the readme file is entirely AI since i really cant be bothered to type all that. So here ya go:
+I coded this for personal use and deceided why not reveal it to the public. Stuff like the resolution and the amount of new vids to download is now configurable from the launcher menu instead of being hardcoded. Also, dont bug me for it, buuut the readme file is entirely AI since i really cant be bothered to type all that. So here ya go:
 
 ChannelDown
 
@@ -52,6 +52,10 @@ Features
 
 
 
+⚙️ Settings menu (resolution, videos per channel, retries, cooldown, paths)
+
+
+
 Requirements
 
 Python 3.10+
@@ -94,7 +98,9 @@ skip.txt       # Optional: video IDs to skip
 
 yt download.py # Main script
 
-run\_downloader.bat
+settings.py    # Settings menu + defaults
+
+Launcher.bat
 
 
 
@@ -104,9 +110,35 @@ Use the included BAT launcher:
 
 Code
 
-run\_downloader.bat
+Launcher.bat
 
 This ensures the working directory is correct so logs, state files, and channel lists load properly.
+
+
+
+Settings
+
+Run Launcher.bat and pick "2. Settings". You can change:
+
+
+
+Max video resolution (144 up to 2160, or best)
+
+Newest videos to check per channel
+
+Retries per failed step and seconds between retries
+
+Cooldown between videos of the same channel
+
+Minimum valid file size (MB)
+
+Output folder for the per-channel subfolders
+
+Paths to yt-dlp.exe, ffmpeg and ffprobe
+
+
+
+Choosing "s" saves the values to settings.json and starts the downloader straight away; "q" goes back without saving. Anything not present in settings.json falls back to the defaults in settings.py.
 
 
 
@@ -194,21 +226,19 @@ Code
 
 ChannelName/YYYY-MM-DD - Title.mp4
 
-Launcher (run\_downloader.bat)
+Launcher (Launcher.bat)
 
-Included in the repo:
+Included in the repo. It cds into the script folder and shows a menu:
 
 
 
 Code
 
-@echo off
+1. Start downloading
 
-cd /d "%\~dp0"
+2. Settings (resolution, videos per channel, ...)
 
-python "yt download.py"
-
-pause
+3. Exit
 
 This prevents Windows from running the script inside C:\\Windows\\System32, which causes permission errors.
 

@@ -10,6 +10,8 @@ import signal
 import sys
 import time
 
+from settings import build_format_chain, load_settings
+
 def format_time(seconds: float) -> str:
     if seconds is None or seconds <= 0:
         return "--:--"
@@ -127,29 +129,25 @@ def load_skip_list() -> set:
 SKIP_LIST = load_skip_list()    
 CHANNELS = load_channels()
 
-YTDLP = r"C:\Tools\yt-dlp\yt-dlp.exe"
-FFMPEG = "ffmpeg"
-FFPROBE = "ffprobe"
+SETTINGS = load_settings()
+
+YTDLP = SETTINGS["ytdlp_path"]
+FFMPEG = SETTINGS["ffmpeg_path"]
+FFPROBE = SETTINGS["ffprobe_path"]
 
 STATE_FILE = "state.json"
 CORRUPTED_DIR = "corrupted"
 STOP_FILE = "STOP"
 LOG_FILE = "downloader.log"
 
-MAX_RETRIES = 5
-RETRY_DELAY = 5  # seconds
-CHANNEL_COOLDOWN = 30  # seconds between hits to same channel
-MIN_FILE_SIZE_BYTES = 1 * 1024 * 1024  # 1 MB
-NEWEST_PER_CHANNEL = 2
+MAX_RETRIES = int(SETTINGS["max_retries"])
+RETRY_DELAY = int(SETTINGS["retry_delay"])  # seconds
+CHANNEL_COOLDOWN = int(SETTINGS["channel_cooldown"])  # seconds between hits to same channel
+MIN_FILE_SIZE_BYTES = int(SETTINGS["min_file_size_mb"]) * 1024 * 1024
+NEWEST_PER_CHANNEL = int(SETTINGS["newest_per_channel"])
+OUTPUT_DIR = SETTINGS["output_dir"]
 
-FORMAT_CHAIN = [
-    "134+140",  # 360p DASH
-    "18",       # 360p progressive
-    "93",
-    "92",
-    "91",
-    "best"
-]
+FORMAT_CHAIN = build_format_chain(SETTINGS["resolution"])
 
 # ===========================
 # LOGGING (file + console)
@@ -544,7 +542,7 @@ def validate_download(path: str, expected_duration: Optional[int]) -> bool:
 
 def build_final_path(base_dir: str, channel_name: str,
                      upload_date: Optional[str], title: str) -> str:
-    safe_channel = sanitize(channel_name or "UnknownChannel")
+    safe_channel = os.path.join(base_dir, sanitize(channel_name or "UnknownChannel"))
     ensure_dir(safe_channel)
 
     prefix = ""
@@ -650,7 +648,7 @@ def download_video(state: Dict[str, Any], video: Dict[str, Any]) -> None:
                 continue
             break
 
-        final_path = build_final_path(".", channel, upload_date, title)
+        final_path = build_final_path(OUTPUT_DIR, channel, upload_date, title)
         ensure_dir(os.path.dirname(final_path))
         logging.info("Moving %s -> %s", temp_name, final_path)
         try:
@@ -670,6 +668,10 @@ def download_video(state: Dict[str, Any], video: Dict[str, Any]) -> None:
 
 def main():
     logging.info("=== START ===")
+    logging.info(
+        "Settings: resolution=%s, newest per channel=%d, retries=%d, cooldown=%ds, output=%s",
+        SETTINGS["resolution"], NEWEST_PER_CHANNEL, MAX_RETRIES, CHANNEL_COOLDOWN, OUTPUT_DIR
+    )
 
     if not verify_ytdlp():
         logging.critical("yt-dlp.exe is missing or invalid — cannot continue.")
